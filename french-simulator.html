@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulateur — Français B1 (TCF/TEF) — Carte de Résident Prep</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎧</text></svg>">
+</head>
+<body>
+<div class="tricolore"></div>
+<header class="site">
+  <div class="site-inner">
+    <a class="brand" href="index.html"><span class="flag">🇫🇷</span><span>Objectif 10 ans<small>Carte de résident · mars 2027</small></span></a>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="civic-guide.html">Civic · Guide</a>
+      <a href="civic-simulator.html">Civic · Simulator</a>
+      <a href="french-guide.html">French B1 · Guide</a>
+      <a href="french-simulator.html">French B1 · Simulator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>🎧 Simulateur — <span class="em">français B1</span> (type TCF / TEF)</h1>
+  <p class="lead">Trois ateliers : le <b>QCM</b> (compréhension orale — lue à voix haute par votre navigateur —, compréhension écrite, grammaire), l'<b>expression écrite</b> avec compteur de mots et corrigés modèles, et l'<b>expression orale</b> avec sujets et réponses modèles.</p>
+
+  <h2>1. QCM — compréhension orale · écrite · grammaire</h2>
+  <p class="small muted">Mode examen : 30 questions / 35 minutes. Repère indicatif : <b>≥ 65–70 % ≈ niveau B1</b> sur ces items (estimation d'entraînement — les vrais tests utilisent des barèmes calibrés). Pour l'écoute : cliquez « 🔊 Écouter », 2 écoutes maximum, comme au vrai test.</p>
+  <div id="quiz"></div>
+
+  <h2 style="margin-top:2.5rem">2. Expression écrite — atelier avec compteur de mots</h2>
+  <p class="small muted">Les 3 tâches du format TCF IRN. Écrivez dans la zone (votre brouillon est sauvegardé automatiquement dans le navigateur), respectez la fourchette de mots, puis comparez au modèle. Au vrai test : ~30 minutes pour les 3 tâches.</p>
+  <div id="ee-area"></div>
+
+  <h2 style="margin-top:2.5rem">3. Expression orale — sujets &amp; modèles</h2>
+  <p class="small muted">10 minutes face à un examinateur, 3 parties. Entraînez-vous à voix haute, <b>enregistrez-vous avec votre téléphone</b>, réécoutez et recommencez. Cochez la partie quand vous êtes à l'aise.</p>
+  <div id="eo-area"></div>
+
+  <div class="card" style="margin-top:1.4rem">
+    <h3 class="mt0">✅ Auto-évaluation orale (avant l'examen, tout doit être coché)</h3>
+    <ul class="checklist" data-store="frenchsim:eo-check">
+      <li><input type="checkbox" id="eoc-1"><label for="eoc-1">Je peux me présenter 2 minutes sans m'arrêter (travail, ville, famille, loisirs, depuis quand en France)</label></li>
+      <li><input type="checkbox" id="eoc-2"><label for="eoc-2">Je sais poser 6 questions variées (est-ce que / quel / combien / où / comment / à quelle heure)</label></li>
+      <li><input type="checkbox" id="eoc-3"><label for="eoc-3">Je raconte un souvenir au passé sans me tromper entre passé composé et imparfait</label></li>
+      <li><input type="checkbox" id="eoc-4"><label for="eoc-4">J'utilise des connecteurs en parlant (d'abord, ensuite, enfin, par exemple, cependant)</label></li>
+      <li><input type="checkbox" id="eoc-5"><label for="eoc-5">Je donne mon opinion avec 2 arguments + 1 exemple personnel + 1 conclusion</label></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site">
+  Simulateur non officiel d'entraînement — formats inspirés du TCF IRN / TEF IRN. Sujets d'exemple officiels sur france-education-international.fr et lefrancaisdesaffaires.fr.
+</footer>
+
+<script src="assets/app.js"></script>
+<script src="assets/quiz.js"></script>
+<script src="assets/data/french-data.js"></script>
+<script>
+  /* ---------- QCM ---------- */
+  Quiz.mount({
+    el: '#quiz',
+    bank: window.FRENCH_QUESTIONS,
+    themes: window.FRENCH_THEMES,
+    storageKey: 'french',
+    exam: { size: 30, minutes: 35, passPct: 65 },
+    examNote: 'repère B1 ≈ 65 %+',
+    passLabel: '🎉 Niveau B1 probablement atteint sur ce QCM (estimation) — continuez comme ça !',
+    failLabel: 'En dessous du repère B1 (65 %) — revoyez les erreurs et retentez dans quelques jours.'
+  });
+
+  /* ---------- Expression écrite ---------- */
+  (function () {
+    var host = document.getElementById('ee-area');
+
+    function wordCount(s) {
+      var m = s.trim().match(/[\p{L}\p{N}'’-]+/gu);
+      return m ? m.length : 0;
+    }
+
+    window.FRENCH_EE_TASKS.forEach(function (task) {
+      var card = document.createElement('div');
+      card.className = 'card ee-task';
+      card.style.marginBottom = '1rem';
+
+      var head = document.createElement('h3');
+      head.className = 'mt0';
+      head.textContent = task.title;
+      card.appendChild(head);
+
+      var meta = document.createElement('p');
+      meta.className = 'small';
+      meta.innerHTML = '<span class="badge">' + task.min + '–' + task.max + ' mots</span> ' +
+        '<span class="badge ghost">≈ ' + task.minutes + ' min</span>';
+      card.appendChild(meta);
+
+      var prompt = document.createElement('p');
+      prompt.textContent = task.prompt;
+      prompt.style.fontWeight = '600';
+      card.appendChild(prompt);
+
+      var ta = document.createElement('textarea');
+      ta.placeholder = 'Écrivez votre réponse ici… (brouillon sauvegardé automatiquement)';
+      ta.value = App.lsGet('ee:' + task.id, '');
+      card.appendChild(ta);
+
+      var wc = document.createElement('div');
+      wc.className = 'wordcount';
+      card.appendChild(wc);
+
+      function updateCount() {
+        var n = wordCount(ta.value);
+        wc.textContent = n + ' mot' + (n > 1 ? 's' : '') + ' — objectif ' + task.min + '–' + task.max;
+        wc.className = 'wordcount ' + (n >= task.min && n <= task.max ? 'ok' : (n === 0 ? '' : 'out'));
+      }
+
+      var saveT = null;
+      ta.addEventListener('input', function () {
+        updateCount();
+        clearTimeout(saveT);
+        saveT = setTimeout(function () { App.lsSet('ee:' + task.id, ta.value); }, 400);
+      });
+      updateCount();
+
+      var tips = document.createElement('p');
+      tips.className = 'small muted';
+      tips.textContent = '💡 ' + task.tips;
+      card.appendChild(tips);
+
+      var det = document.createElement('details');
+      det.className = 'model';
+      var sum = document.createElement('summary');
+      sum.textContent = 'Voir une réponse modèle';
+      det.appendChild(sum);
+      var body = document.createElement('div');
+      body.className = 'model-body';
+      if (task.modelIsHtml) body.innerHTML = task.model;
+      else body.textContent = task.model;
+      det.appendChild(body);
+      card.appendChild(det);
+
+      host.appendChild(card);
+    });
+  })();
+
+  /* ---------- Expression orale ---------- */
+  (function () {
+    var host = document.getElementById('eo-area');
+    window.FRENCH_EO_PARTS.forEach(function (part) {
+      var card = document.createElement('div');
+      card.className = 'card';
+      card.style.marginBottom = '1rem';
+
+      var head = document.createElement('h3');
+      head.className = 'mt0';
+      head.textContent = part.title;
+      card.appendChild(head);
+
+      var desc = document.createElement('p');
+      desc.className = 'small';
+      desc.textContent = part.desc;
+      card.appendChild(desc);
+
+      var ul = document.createElement('ul');
+      ul.className = 'small';
+      ul.style.paddingInlineStart = '1.2rem';
+      part.questions.forEach(function (q) {
+        var li = document.createElement('li');
+        li.textContent = q;
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+
+      var listen = document.createElement('button');
+      listen.className = 'btn outline small';
+      listen.textContent = '🔊 Écouter le modèle (voix du navigateur)';
+      listen.addEventListener('click', function () {
+        App.speakFrench(part.model, { rate: 0.95 });
+      });
+
+      var det = document.createElement('details');
+      det.className = 'model';
+      var sum = document.createElement('summary');
+      sum.textContent = 'Voir la réponse / stratégie modèle';
+      det.appendChild(sum);
+      var body = document.createElement('div');
+      body.className = 'model-body';
+      body.textContent = part.model;
+      var tip = document.createElement('p');
+      tip.className = 'small muted';
+      tip.style.marginBottom = '0';
+      tip.textContent = '💡 ' + part.tips;
+      body.appendChild(document.createElement('hr'));
+      body.appendChild(tip);
+      det.appendChild(body);
+
+      card.appendChild(det);
+      card.appendChild(document.createElement('br'));
+      card.appendChild(listen);
+      host.appendChild(card);
+    });
+  })();
+</script>
+</body>
+</html>

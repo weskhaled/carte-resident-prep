@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objectif Carte de Résident 10 ans — Dashboard</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇫🇷</text></svg>">
+</head>
+<body>
+<div class="tricolore"></div>
+<header class="site">
+  <div class="site-inner">
+    <a class="brand" href="index.html"><span class="flag">🇫🇷</span><span>Objectif 10 ans<small>Carte de résident · mars 2027</small></span></a>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="civic-guide.html">Civic · Guide</a>
+      <a href="civic-simulator.html">Civic · Simulator</a>
+      <a href="french-guide.html">French B1 · Guide</a>
+      <a href="french-simulator.html">French B1 · Simulator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="card accent">
+    <h1>🎯 Goal: <span class="em">Carte de résident (10 years)</span></h1>
+    <p class="lead mb0">Your titre de séjour renewal is coming in <b>March 2027</b>. Moving up to the 10-year card requires <b>two exams</b> since 1 January 2026: the <b>civic exam</b> and <b>French level B1</b>. This project gets you ready for both in <b>8 weeks</b>.</p>
+    <hr>
+    <div class="grid cols-2">
+      <div>
+        <h3 class="mt0">⏳ Time until renewal</h3>
+        <div id="countdown" class="countdown"></div>
+        <p class="small muted center" style="margin-top:.6rem">Target date:
+          <input type="date" id="goal-date" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:6px;font-family:inherit">
+        </p>
+      </div>
+      <div>
+        <h3 class="mt0">📈 Roadmap progress</h3>
+        <div data-progress-of="roadmap">
+          <div class="progress" style="height:12px"><i style="width:0%"></i></div>
+          <p class="small muted" style="margin-top:.5rem"><b class="pct-val">0%</b> complete — <span class="pct-count">0/0</span> tasks done.
+          <a href="roadmap.html">Open the 8-week plan →</a></p>
+        </div>
+        <p class="small muted mb0">💡 Recommended: pass both exams by <b>mid-September 2026</b>. TCF/TEF attestations are valid 2 years and the civic attestation never expires — everything will still be valid for your March 2027 application.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>The two requirements</h2>
+  <div class="grid cols-2">
+    <div class="card accent">
+      <h3 class="mt0">🏛️ Test civique <span class="badge red">mandatory</span></h3>
+      <p class="small">40 QCM on computer · 45 min · pass at <b>32/40 (80%)</b> · 28 knowledge + 12 situational questions · ~30–90 € · attestation valid forever.</p>
+      <p class="small">Themes: values of the Republic, institutions, rights &amp; duties, history/geography/culture, daily life in France.</p>
+      <div id="stat-civic" class="small" style="margin:.6rem 0"></div>
+      <div class="pill-row">
+        <a class="btn small" href="civic-simulator.html">Start a mock exam</a>
+        <a class="btn small outline" href="civic-guide.html">Read the guide &amp; fiches</a>
+      </div>
+    </div>
+    <div class="card accent-red">
+      <h3 class="mt0">🇫🇷 French level B1 <span class="badge red">mandatory</span></h3>
+      <p class="small">Proven by <b>TCF</b> or <b>TEF</b> (the only accepted tests, ~1h30, 135–210 €, valid 2 years) — or by a French diploma ≥ B1 (DELF B1, CAP/bac/licence obtained in France…) which <b>exempts you from the test</b>.</p>
+      <p class="small">4 skills tested: listening, reading, writing, speaking.</p>
+      <div id="stat-french" class="small" style="margin:.6rem 0"></div>
+      <div class="pill-row">
+        <a class="btn small" href="french-simulator.html">Practice test</a>
+        <a class="btn small outline" href="french-guide.html">Read the guide</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>At a glance</h2>
+  <div class="table-scroll">
+    <table class="data">
+      <tr><th></th><th>🏛️ Test civique</th><th>🇫🇷 French B1 (TCF / TEF)</th></tr>
+      <tr><td><b>Required for</b></td><td>First carte de séjour pluriannuelle <b>and</b> first carte de résident (your case)</td><td>First carte de résident = level <b>B1</b> (pluriannuelle = A2)</td></tr>
+      <tr><td><b>Format</b></td><td>40 QCM, 45 min, on computer/tablet, in French</td><td>4 épreuves : compréhension orale + écrite (QCM), expression écrite (3 tâches), expression orale (3 tâches face-à-face) — ≈ 1h30</td></tr>
+      <tr><td><b>Pass mark</b></td><td>32/40 correct (80 %)</td><td>Reach B1 band in the skills (CECRL scale)</td></tr>
+      <tr><td><b>Cost</b></td><td>≈ 30–90 € depending on the centre</td><td>≈ 135–210 € depending on the centre</td></tr>
+      <tr><td><b>Where</b></td><td>Accredited centres — CCI Paris Île-de-France or France Éducation International network</td><td>TCF/TEF accredited centres (Alliances françaises, language schools…)</td></tr>
+      <tr><td><b>Results</b></td><td>Attestation of success — <b>no expiry</b></td><td>Attestation in ~2–4 weeks — <b>valid 2 years</b></td></tr>
+      <tr><td><b>Exemptions</b></td><td>Age 65+, medical conditions, some protected statuses</td><td>Age 65+, medical, or a French diploma ≥ B1 (DELF B1+, DCL, CAP/bac/licence…)</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>👋 Start here (this week):</b>
+    <ol style="margin:.4rem 0 0; padding-inline-start:1.2rem">
+      <li>Take one <a href="civic-simulator.html">civic mock exam</a> right now to get your baseline — don't study first.</li>
+      <li>Take the <a href="french-simulator.html">French practice test</a> for your language baseline.</li>
+      <li><b>Book your TCF/TEF session</b> for ~week 8 and <b>register for the civic exam</b> — centres fill up weeks in advance (links in the guides).</li>
+      <li>Then follow the <a href="roadmap.html">8-week roadmap</a>, ~45 min per day.</li>
+    </ol>
+  </div>
+
+  <h2>Official sources</h2>
+  <ul class="small">
+    <li><a href="https://formation-civique.interieur.gouv.fr/" target="_blank" rel="noopener">formation-civique.interieur.gouv.fr</a> — official civic exam portal: free preparation fiches, official question lists, centre map.</li>
+    <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F39530" target="_blank" rel="noopener">service-public.gouv.fr — F39530</a> — civic exam rules (who, format, exemptions).</li>
+    <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F34501" target="_blank" rel="noopener">service-public.gouv.fr — F34501</a> — how to prove your French level (accepted tests &amp; diplomas).</li>
+    <li><a href="https://www.france-education-international.fr/test/tcf-irn" target="_blank" rel="noopener">france-education-international.fr</a> — TCF IRN official page + sample exercises.</li>
+    <li><a href="https://www.immigration.interieur.gouv.fr/limmigration-en-france/sejour-des-etrangers/lexamen-civique-pour-demander-titre-de-sejour" target="_blank" rel="noopener">immigration.interieur.gouv.fr</a> — DGEF page on the civic exam.</li>
+    <li><a href="https://administration-etrangers-en-france.interieur.gouv.fr/" target="_blank" rel="noopener">ANEF</a> — where you'll file the renewal application online.</li>
+  </ul>
+
+  <div class="note warn">
+    <b>⚠️ Double-check before booking.</b> This site was built from official sources in <b>July 2026</b> — rules can evolve. Verify formats, prices and your personal situation (exemptions, bilateral agreements — e.g. the <i>accord franco-tunisien</i> covers some 10-year-card categories) on the official pages above or with your préfecture before paying for anything.
+  </div>
+
+</main>
+
+<footer class="site">
+  Personal preparation project — unofficial. Data stays in your browser (localStorage). Built July 2026.
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

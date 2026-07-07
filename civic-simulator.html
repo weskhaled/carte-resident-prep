@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulateur — Examen civique — Carte de Résident Prep</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+</head>
+<body>
+<div class="tricolore"></div>
+<header class="site">
+  <div class="site-inner">
+    <a class="brand" href="index.html"><span class="flag">🇫🇷</span><span>Objectif 10 ans<small>Carte de résident · mars 2027</small></span></a>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="civic-guide.html">Civic · Guide</a>
+      <a href="civic-simulator.html">Civic · Simulator</a>
+      <a href="french-guide.html">French B1 · Guide</a>
+      <a href="french-simulator.html">French B1 · Simulator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>🎯 Simulateur — <span class="em">examen civique</span></h1>
+  <p class="lead">Conditions réelles de l'examen : <b>40 questions</b> (28 connaissances + 12 mises en situation), <b>45 minutes</b>, réussite à <b>32/40 (80 %)</b>. Les options sont mélangées à chaque essai. Banque locale de <span id="bank-count">…</span> questions couvrant les 5 thèmes officiels.</p>
+
+  <div class="grid cols-3" style="margin-bottom:1.2rem">
+    <div class="card stat"><div class="num">40</div><div class="lbl">questions par examen blanc</div></div>
+    <div class="card stat"><div class="num">45 min</div><div class="lbl">chronométrées, comme le vrai test</div></div>
+    <div class="card stat"><div class="num">32/40</div><div class="lbl">bonnes réponses pour réussir</div></div>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div class="note" style="margin-top:2rem">
+    <b>Conseil de méthode :</b> alternez <b>entraînement par thème</b> (la semaine, en suivant la <a href="roadmap.html">roadmap</a>) et <b>examens blancs complets</b> (le week-end). Après chaque session, utilisez « Rejouer mes erreurs » jusqu'à ce que la liste soit vide — c'est la répétition espacée qui fait passer de 70 % à 90 %.
+  </div>
+  <p class="small muted">Révisez d'abord les <a href="civic-guide.html">fiches du guide</a>. Complétez avec les fiches et listes de questions <b>officielles</b> sur <a href="https://formation-civique.interieur.gouv.fr/" target="_blank" rel="noopener">formation-civique.interieur.gouv.fr</a>.</p>
+</main>
+
+<footer class="site">
+  Simulateur non officiel d'entraînement — le contenu réel de l'examen est défini par le ministère de l'Intérieur.
+</footer>
+
+<script src="assets/app.js"></script>
+<script src="assets/quiz.js"></script>
+<script src="assets/data/civic-data.js"></script>
+<script>
+  document.getElementById('bank-count').textContent = window.CIVIC_QUESTIONS.length;
+  Quiz.mount({
+    el: '#quiz',
+    bank: window.CIVIC_QUESTIONS,
+    themes: window.CIVIC_THEMES,
+    storageKey: 'civic',
+    exam: { size: 40, minutes: 45, passPct: 80, split: { knowledge: 28, situational: 12 } },
+    examNote: '28 connaissances + 12 mises en situation, comme le vrai examen',
+    passLabel: '🎉 ADMIS — vous auriez réussi l’examen civique !',
+    failLabel: 'Pas encore — il faut 32/40 (80 %). Revoyez vos erreurs ci-dessous.'
+  });
+</script>
+</body>
+</html>

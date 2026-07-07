@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8-week Roadmap — Carte de Résident Prep</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇫🇷</text></svg>">
+</head>
+<body>
+<div class="tricolore"></div>
+<header class="site">
+  <div class="site-inner">
+    <a class="brand" href="index.html"><span class="flag">🇫🇷</span><span>Objectif 10 ans<small>Carte de résident · mars 2027</small></span></a>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="civic-guide.html">Civic · Guide</a>
+      <a href="civic-simulator.html">Civic · Simulator</a>
+      <a href="french-guide.html">French B1 · Guide</a>
+      <a href="french-simulator.html">French B1 · Simulator</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>🗓️ The 8-week preparation plan</h1>
+  <p class="lead">Two months, ~45 minutes a day. Weeks 1–4 are <b>civic-heavy</b> (it's memorization — daily reps win), French runs in parallel every day. Weeks 5–8 shift to <b>French skills + full simulations</b>. Check tasks off — progress is saved in your browser.</p>
+
+  <div class="card">
+    <div class="grid cols-2">
+      <div>
+        <b>Plan start date:</b>
+        <input type="date" id="plan-start" style="padding:.3rem .5rem;border:1px solid var(--border);border-radius:6px;font-family:inherit">
+        <p class="xs muted mb0">Week dates below adjust automatically. The current week is highlighted.</p>
+      </div>
+      <div data-progress-of="roadmap">
+        <b>Overall progress: <span class="pct-val">0%</span></b> <span class="small muted">(<span class="pct-count">0/0</span> tasks)</span>
+        <div class="progress" style="height:12px;margin-top:.4rem"><i style="width:0%"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="routine">
+    <b>📅 The daily routine (45 min)</b> — <i>consistency beats intensity</i>:<br>
+    • <b>15 min civic</b>: training mode on the week's theme, then "Rejouer mes erreurs".<br>
+    • <b>30 min French</b>: Mon = listening (CO) · Tue = grammar · Wed = reading (CE) · Thu = writing (EE) · Fri = speaking (EO, record yourself) · Sat = mock test or error review · Sun = rest / catch-up.<br>
+    • On the metro / while cooking: <b>RFI "Journal en français facile"</b> (10 min daily news podcast in easy French).
+  </div>
+
+  <div id="roadmap-weeks">
+
+    <details class="week">
+      <summary><span class="w-num">S1</span><span class="w-title">Kick-off, baselines &amp; bookings</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <p class="small muted">Goal: know exactly where you stand and lock the exam dates. Booking early is the single most important task of the whole plan — centres fill up 3–6 weeks ahead.</p>
+        <ul class="checklist" data-store="roadmap:w1">
+          <li><input type="checkbox" id="w1-1"><label for="w1-1">Read the <a href="civic-guide.html">civic guide</a> and the <a href="french-guide.html">French B1 guide</a> completely</label></li>
+          <li><input type="checkbox" id="w1-2"><label for="w1-2">Baseline: 1 civic <b>examen blanc</b> (don't study first — just measure). Note your score: ____ /40</label></li>
+          <li><input type="checkbox" id="w1-3"><label for="w1-3">Baseline: 1 French mock (30 questions). Note your score: ____ %</label></li>
+          <li><input type="checkbox" id="w1-4"><label for="w1-4">❗ Check if a French diploma exempts you from the language test (see guide §2) — could save 150 € and weeks of stress</label></li>
+          <li><input type="checkbox" id="w1-5"><label for="w1-5">❗ <b>Book a TCF IRN / TEF IRN session</b> for around week 8 (mid-September) — results take 2–4 weeks</label></li>
+          <li><input type="checkbox" id="w1-6"><label for="w1-6">❗ <b>Register for the civic exam</b> (FEI test-civique or CCI centre) for week 8–9</label></li>
+          <li><input type="checkbox" id="w1-7"><label for="w1-7">Download the <b>official fiches de préparation</b> from formation-civique.interieur.gouv.fr</label></li>
+          <li><input type="checkbox" id="w1-8"><label for="w1-8">Confirm your renewal window &amp; procedure (ANEF account works, préfecture requirements for your case)</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S2</span><span class="w-title">Civic: valeurs &amp; symboles · French: listening habit</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w2">
+          <li><input type="checkbox" id="w2-1"><label for="w2-1">Study fiche <b>« Devise &amp; principes »</b> + fiche <b>« Symboles »</b> (civic guide)</label></li>
+          <li><input type="checkbox" id="w2-2"><label for="w2-2">Training: 20 questions theme <b>« Principes &amp; valeurs »</b> — aim ≥ 80 %</label></li>
+          <li><input type="checkbox" id="w2-3"><label for="w2-3">Re-run <b>« Rejouer mes erreurs »</b> until the list is empty</label></li>
+          <li><input type="checkbox" id="w2-4"><label for="w2-4">French: all 12 listening (CO) items in training mode</label></li>
+          <li><input type="checkbox" id="w2-5"><label for="w2-5">French: grammar block — passé composé vs imparfait (training, theme « Grammaire »)</label></li>
+          <li><input type="checkbox" id="w2-6"><label for="w2-6">Listen to RFI « Journal en français facile » at least 4× this week</label></li>
+          <li><input type="checkbox" id="w2-7"><label for="w2-7">Write <b>EE Tâche 1</b> (message to a friend) once, compare with the model</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S3</span><span class="w-title">Civic: institutions · French: reading + writing</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w3">
+          <li><input type="checkbox" id="w3-1"><label for="w3-1">Study fiche <b>« Institutions de la République »</b> (with the diagram — redraw it from memory once)</label></li>
+          <li><input type="checkbox" id="w3-2"><label for="w3-2">Training: 20 questions theme <b>« Système politique &amp; institutions »</b> — aim ≥ 80 %</label></li>
+          <li><input type="checkbox" id="w3-3"><label for="w3-3">French: the 4 reading texts (CE) in training mode</label></li>
+          <li><input type="checkbox" id="w3-4"><label for="w3-4">French: write <b>EE Tâche 2</b> (raconter une expérience), compare with model</label></li>
+          <li><input type="checkbox" id="w3-5"><label for="w3-5">Learn the admin vocabulary list (French guide §7) — 1st pass</label></li>
+          <li><input type="checkbox" id="w3-6"><label for="w3-6">Civic: 30-question mixed training session</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S4</span><span class="w-title">Civic: droits &amp; devoirs · Mid-point check ✔</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w4">
+          <li><input type="checkbox" id="w4-1"><label for="w4-1">Study fiche <b>« Droits &amp; devoirs »</b> + memorize the emergency numbers table (15 / 17 / 18 / 112 / 114 / 3919)</label></li>
+          <li><input type="checkbox" id="w4-2"><label for="w4-2">Training: 20 questions theme <b>« Droits &amp; devoirs »</b> — aim ≥ 80 %</label></li>
+          <li><input type="checkbox" id="w4-3"><label for="w4-3">🎯 <b>MID-POINT: civic examen blanc #2 — target ≥ 28/40 (70 %)</b></label></li>
+          <li><input type="checkbox" id="w4-4"><label for="w4-4">French: EO Partie 1 (entretien dirigé) — record yourself 3×, compare with the model</label></li>
+          <li><input type="checkbox" id="w4-5"><label for="w4-5">French: grammar block — pronouns le/la/lui/leur/y/en</label></li>
+          <li><input type="checkbox" id="w4-6"><label for="w4-6">Received your TCF/TEF + civic exam convocations? File them somewhere safe</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S5</span><span class="w-title">Civic: histoire &amp; géographie · French: speaking</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w5">
+          <li><input type="checkbox" id="w5-1"><label for="w5-1">Study fiche <b>« Histoire »</b> — learn the timeline (recite the 10 key dates from memory)</label></li>
+          <li><input type="checkbox" id="w5-2"><label for="w5-2">Study fiche <b>« Géographie »</b> (fleuves, montagnes, outre-mer, villes)</label></li>
+          <li><input type="checkbox" id="w5-3"><label for="w5-3">Training: 25 questions theme <b>« Histoire, géographie &amp; culture »</b> — aim ≥ 80 %</label></li>
+          <li><input type="checkbox" id="w5-4"><label for="w5-4">French: EO Parties 2 &amp; 3 — practice out loud, record 2×</label></li>
+          <li><input type="checkbox" id="w5-5"><label for="w5-5">French: write <b>EE Tâche 3</b> (opinion) using the connecteurs from the model</label></li>
+          <li><input type="checkbox" id="w5-6"><label for="w5-6">French: redo all CO items — target ≥ 90 %</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S6</span><span class="w-title">Civic: vie en France + révision · French: full mock #1</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w6">
+          <li><input type="checkbox" id="w6-1"><label for="w6-1">Study fiche <b>« Vivre en France »</b> (santé, école, travail, logement, impôts)</label></li>
+          <li><input type="checkbox" id="w6-2"><label for="w6-2">Training: 20 questions theme <b>« Vivre en France »</b> — aim ≥ 80 %</label></li>
+          <li><input type="checkbox" id="w6-3"><label for="w6-3">Civic: « Rejouer mes erreurs » until empty, across all themes</label></li>
+          <li><input type="checkbox" id="w6-4"><label for="w6-4">🎯 <b>Civic examen blanc #3 — target ≥ 32/40 (80 %) = passing level</b></label></li>
+          <li><input type="checkbox" id="w6-5"><label for="w6-5">🎯 French full mock #1 (exam mode) — target ≥ 65–70 %</label></li>
+          <li><input type="checkbox" id="w6-6"><label for="w6-6">French: write all 3 EE tasks in one 30-min timed session (real exam rhythm)</label></li>
+          <li><input type="checkbox" id="w6-7"><label for="w6-7">Admin vocabulary list — 2nd pass, quiz yourself</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S7</span><span class="w-title">Double simulation week 🔥</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <ul class="checklist" data-store="roadmap:w7">
+          <li><input type="checkbox" id="w7-1"><label for="w7-1">🎯 Civic examen blanc #4 — target ≥ 34/40 (85 %, safety margin)</label></li>
+          <li><input type="checkbox" id="w7-2"><label for="w7-2">🎯 Civic examen blanc #5 — confirm ≥ 85 % on a second run</label></li>
+          <li><input type="checkbox" id="w7-3"><label for="w7-3">🎯 French full mock #2 — target ≥ 70 %</label></li>
+          <li><input type="checkbox" id="w7-4"><label for="w7-4">Full EO run-through: 3 parts back-to-back, ~10 min, recorded (or with a friend playing examiner)</label></li>
+          <li><input type="checkbox" id="w7-5"><label for="w7-5">Review every wrong answer in both simulators — read each explanation out loud</label></li>
+          <li><input type="checkbox" id="w7-6"><label for="w7-6">Try the official free quiz on formation-civique.interieur.gouv.fr / ensemble-en-france.org for extra variety</label></li>
+          <li><input type="checkbox" id="w7-7"><label for="w7-7">Re-read both convocations: exact address, time, required documents</label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="week">
+      <summary><span class="w-num">S8</span><span class="w-title">Taper + exam week 💪</span><span class="w-dates"></span><span class="w-pct"></span></summary>
+      <div class="w-body">
+        <p class="small muted">No cramming this week — light review only. Your score is already built; now protect your sleep and logistics.</p>
+        <ul class="checklist" data-store="roadmap:w8">
+          <li><input type="checkbox" id="w8-1"><label for="w8-1">15 min/day max: « Rejouer mes erreurs » (civic) + 1 CO item (French)</label></li>
+          <li><input type="checkbox" id="w8-2"><label for="w8-2">Prepare the exam-day kit: <b>passport + current titre de séjour + convocation</b> (printed AND on phone)</label></li>
+          <li><input type="checkbox" id="w8-3"><label for="w8-3">Scout the trip to each exam centre (transport, time, backup plan)</label></li>
+          <li><input type="checkbox" id="w8-4"><label for="w8-4">Sleep ≥ 7h the two nights before each exam</label></li>
+          <li><input type="checkbox" id="w8-5"><label for="w8-5">🏛️ <b>Sit the civic exam</b></label></li>
+          <li><input type="checkbox" id="w8-6"><label for="w8-6">🇫🇷 <b>Sit the TCF / TEF</b></label></li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <h2>📬 After the exams — the renewal application itself</h2>
+  <div class="card">
+    <p class="small muted">Timeline: results arrive 2–4 weeks after the TCF/TEF; the civic attestation is usually faster. You'll file the renewal on <b>ANEF</b> in the window your préfecture allows (typically between 4 and 2 months before expiry — so around <b>November 2026 – January 2027</b> for a March 2027 expiry).</p>
+    <ul class="checklist" data-store="roadmap:after">
+      <li><input type="checkbox" id="af-1"><label for="af-1">Receive the TCF/TEF attestation (B1 ✔) — save PDF in 3 places + print 2 copies</label></li>
+      <li><input type="checkbox" id="af-2"><label for="af-2">Receive the civic exam attestation — same treatment</label></li>
+      <li><input type="checkbox" id="af-3"><label for="af-3">Gather: passport (all pages), current titre de séjour, birth certificate + translation if requested</label></li>
+      <li><input type="checkbox" id="af-4"><label for="af-4">Proof of address less than 6 months old (facture énergie, quittance…)</label></li>
+      <li><input type="checkbox" id="af-5"><label for="af-5">e-photo digital code (photo booth or approved photographer)</label></li>
+      <li><input type="checkbox" id="af-6"><label for="af-6">Proof of 5 years of regular residence: the 5 last avis d'imposition + old titres/récépissés</label></li>
+      <li><input type="checkbox" id="af-7"><label for="af-7">Proof of stable resources: work contract + last 3–6 bulletins de salaire (+ attestation employeur)</label></li>
+      <li><input type="checkbox" id="af-8"><label for="af-8">Both exam attestations (B1 + civique) attached to the dossier</label></li>
+      <li><input type="checkbox" id="af-9"><label for="af-9">Budget the card fee (timbre fiscal — ~225 € for a carte de résident; verify current amount)</label></li>
+      <li><input type="checkbox" id="af-10"><label for="af-10">Submit on ANEF within your window and keep the confirmation + récépissé</label></li>
+    </ul>
+    <div class="note warn small">
+      <b>Nationality note:</b> if you are Tunisian, the <i>accord franco-tunisien</i> of 17 March 1988 governs several 10-year-card categories (spouse of a French national, parent of a French child…). Depending on your category, some conditions can differ from the general CESEDA rules. Ask your préfecture exactly which list of documents applies to <i>your</i> case — but preparing both exams is the safe play either way.
+    </div>
+  </div>
+
+</main>
+
+<footer class="site">
+  Personal preparation project — unofficial. Data stays in your browser (localStorage). Built July 2026.
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
