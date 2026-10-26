@@ -34,7 +34,7 @@ python3 -m http.server 4630
 
 ## How progress is stored
 
-Everything lives in your browser's `localStorage` under the `cr10:` prefix (roadmap checkboxes, quiz history, writing drafts, goal/start dates). Clearing site data resets it. Nothing leaves your machine.
+Everything lives in your browser's `localStorage` under the `cr10:` prefix (roadmap checkboxes, quiz history, the mock exam in progress, writing drafts, goal/start dates). Clearing site data resets it. Nothing leaves your machine.
 
 ## Editing the question banks
 

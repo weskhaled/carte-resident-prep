@@ -12,7 +12,8 @@
 
    Modes:
    - training: pick themes + count, instant feedback + explanation
-   - exam: timed, free navigation, no feedback until submit
+   - exam: timed, free navigation, no feedback until submit;
+     saved under cr10:qz-run:<key> so a reload can resume it
    ============================================================ */
 (function () {
   'use strict';
@@ -42,6 +43,7 @@
     (cfg.themes || []).forEach(function (t) { themeLabel[t.id] = t.label; });
 
     var state = null;   // {mode, questions[], answers[], idx, deadline, timerId, playCounts{}}
+    var runKey = 'qz-run:' + cfg.storageKey; // exam in progress, survives reloads
 
     /* ---------------- setup screen ---------------- */
     function renderSetup() {
@@ -50,6 +52,37 @@
       root.innerHTML = '';
 
       var card = el('div', 'q-card');
+
+      // — exam in progress (saved before a reload / navigation)
+      var saved = loadRun();
+      if (saved) {
+        var left = saved.deadline - Date.now();
+        var answered = saved.answers.filter(function (a) { return a !== null; }).length;
+        var box = el('div', 'note' + (left > 0 ? '' : ' warn'));
+        box.style.marginTop = '0';
+        box.appendChild(el('b', null, left > 0 ? '⏸ Examen blanc en cours' : '⏰ Temps écoulé pour votre examen blanc'));
+        box.appendChild(el('div', 'small', answered + '/' + saved.questions.length + ' réponses' +
+          (left > 0 ? ' · ' + clock(left) + ' restantes — le chrono continue pendant votre absence, comme au vrai examen.' : '.')));
+        var rr = el('div', 'pill-row');
+        var btnResume = el('button', 'btn small', left > 0 ? 'Reprendre l’examen' : 'Voir le résultat');
+        btnResume.addEventListener('click', function () {
+          state = saved;
+          if (state.deadline <= Date.now()) { finish(); return; }
+          startTimer();
+          renderQuestion();
+        });
+        rr.appendChild(btnResume);
+        var btnDrop = el('button', 'btn ghost small', 'Abandonner');
+        btnDrop.addEventListener('click', function () {
+          if (confirm('Abandonner cet examen blanc ? Il ne sera pas enregistré dans l’historique.')) {
+            clearRun();
+            renderSetup();
+          }
+        });
+        rr.appendChild(btnDrop);
+        box.appendChild(rr);
+        card.appendChild(box);
+      }
 
       // — exam block
       var exam = cfg.exam;
@@ -63,7 +96,10 @@
         (cfg.examNote ? ' · ' + cfg.examNote : '');
       card.appendChild(p);
       var btnExam = el('button', 'btn', 'Démarrer l’examen blanc');
-      btnExam.addEventListener('click', function () { start('exam'); });
+      btnExam.addEventListener('click', function () {
+        if (saved && !confirm('Un examen blanc est déjà en cours. Le remplacer par un nouveau ?')) return;
+        start('exam');
+      });
       card.appendChild(btnExam);
 
       card.appendChild(el('hr'));
@@ -207,12 +243,7 @@
 
       // per-run shuffled options with remapped answer
       questions = questions.map(function (q) {
-        var order = shuffle([0, 1, 2, 3].slice(0, q.options.length));
-        return {
-          src: q,
-          options: order.map(function (i) { return q.options[i]; }),
-          answer: order.indexOf(q.answer)
-        };
+        return runQuestion(q, shuffle([0, 1, 2, 3].slice(0, q.options.length)));
       });
 
       state = {
@@ -230,7 +261,62 @@
       renderQuestion();
     }
 
+    function runQuestion(src, order) {
+      return {
+        src: src,
+        order: order,
+        options: order.map(function (i) { return src.options[i]; }),
+        answer: order.indexOf(src.answer)
+      };
+    }
+
+    /* ---------------- exam in progress (survives reloads) ----------------
+       Only exam mode is saved: question ids + option order, answers,
+       position, listening plays and the absolute deadline (the clock
+       keeps running while the page is closed, like the real exam). */
+    function saveRun() {
+      if (!state || state.mode !== 'exam') return;
+      App.lsSet(runKey, {
+        deadline: state.deadline,
+        idx: state.idx,
+        answers: state.answers,
+        playCounts: state.playCounts,
+        questions: state.questions.map(function (q) { return { id: q.src.id, order: q.order }; })
+      });
+    }
+
+    function loadRun() {
+      var run = App.lsGet(runKey, null);
+      if (!run || !run.questions) return null;
+      var byId = {};
+      cfg.bank.forEach(function (q) { byId[q.id] = q; });
+      // the bank may have been edited since — drop a run that no longer matches it
+      var valid = run.questions.every(function (r) {
+        return byId[r.id] && byId[r.id].options.length === r.order.length;
+      });
+      if (!valid) { clearRun(); return null; }
+      return {
+        mode: 'exam',
+        questions: run.questions.map(function (r) { return runQuestion(byId[r.id], r.order); }),
+        answers: run.answers,
+        checked: new Array(run.questions.length).fill(false),
+        idx: run.idx,
+        playCounts: run.playCounts || {},
+        timerId: null,
+        deadline: run.deadline
+      };
+    }
+
+    function clearRun() {
+      App.lsSet(runKey, null);
+    }
+
     /* ---------------- timer ---------------- */
+    function clock(ms) {
+      var m = Math.floor(ms / 60000), s = Math.floor(ms % 60000 / 1000);
+      return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
     function startTimer() {
       stopTimer();
       state.timerId = setInterval(function () {
@@ -238,8 +324,7 @@
         if (left <= 0) { finish(); return; }
         var t = document.getElementById('qz-timer');
         if (t) {
-          var m = Math.floor(left / 60000), s = Math.floor(left % 60000 / 1000);
-          t.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+          t.textContent = clock(left);
           t.classList.toggle('low', left < 5 * 60000);
         }
       }, 250);
@@ -255,6 +340,7 @@
       // or re-rendering the same one must not stop a listening in progress
       if (state.renderedIdx !== state.idx) App.stopSpeech();
       state.renderedIdx = state.idx;
+      saveRun(); // every answer / navigation goes through here
       root.innerHTML = '';
       var q = state.questions[state.idx];
       var src = q.src;
@@ -322,6 +408,7 @@
         setPlayLabel();
         play.addEventListener('click', function () {
           state.playCounts[src.id] = (state.playCounts[src.id] || 0) + 1;
+          saveRun();
           // update in place: a re-render would wipe the fallback transcript
           setPlayLabel();
           if (!App.speakFrench(src.say)) showTranscript(card, src, true);
@@ -385,7 +472,10 @@
       var nav = el('div', 'q-nav');
       var quit = el('button', 'btn ghost small', '← Quitter');
       quit.addEventListener('click', function () {
-        if (confirm('Quitter ? La session en cours sera perdue.')) renderSetup();
+        if (confirm('Quitter ? La session en cours sera perdue.')) {
+          if (state.mode === 'exam') clearRun();
+          renderSetup();
+        }
       });
       nav.appendChild(quit);
       nav.appendChild(el('span', 'spacer'));
@@ -434,6 +524,7 @@
     function finish() {
       stopTimer();
       App.stopSpeech();
+      if (state.mode === 'exam') clearRun();
 
       var score = 0;
       var byTheme = {};
