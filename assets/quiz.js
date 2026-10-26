@@ -251,7 +251,10 @@
 
     /* ---------------- question screen ---------------- */
     function renderQuestion() {
-      App.stopSpeech();
+      // only cut the audio when moving to another question — answering
+      // or re-rendering the same one must not stop a listening in progress
+      if (state.renderedIdx !== state.idx) App.stopSpeech();
+      state.renderedIdx = state.idx;
       root.innerHTML = '';
       var q = state.questions[state.idx];
       var src = q.src;
@@ -310,17 +313,18 @@
       // audio (listening comprehension)
       if (src.say) {
         var box = el('div', 'audio-box');
-        var plays = state.playCounts[src.id] || 0;
-        var left = Math.max(0, 2 - plays);
-        var play = el('button', 'btn small', '🔊 Écouter (' + left + ' écoute' + (left > 1 ? 's' : '') + ' restante' + (left > 1 ? 's' : '') + ')');
-        play.disabled = left === 0;
+        var play = el('button', 'btn small');
+        var setPlayLabel = function () {
+          var left = Math.max(0, 2 - (state.playCounts[src.id] || 0));
+          play.textContent = '🔊 Écouter (' + left + ' écoute' + (left > 1 ? 's' : '') + ' restante' + (left > 1 ? 's' : '') + ')';
+          play.disabled = left === 0;
+        };
+        setPlayLabel();
         play.addEventListener('click', function () {
           state.playCounts[src.id] = (state.playCounts[src.id] || 0) + 1;
-          var ok = App.speakFrench(src.say, {
-            onUnavailable: function () { showTranscript(card, src, true); }
-          });
-          if (!ok) showTranscript(card, src, true);
-          renderQuestion();
+          // update in place: a re-render would wipe the fallback transcript
+          setPlayLabel();
+          if (!App.speakFrench(src.say)) showTranscript(card, src, true);
         });
         box.appendChild(play);
         box.appendChild(el('span', 'xs muted', 'Comme au vrai TCF : 2 écoutes maximum. Synthèse vocale française du navigateur.'));
