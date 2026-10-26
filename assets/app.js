@@ -7,6 +7,7 @@
   'use strict';
 
   var NS = 'cr10:'; // localStorage namespace
+  var DEFAULT_GOAL = '2027-03-01'; // titre de séjour expiry (editable on the dashboard)
 
   function lsGet(key, fallback) {
     try {
@@ -37,13 +38,14 @@
     var box = document.getElementById('countdown');
     if (!box) return;
     var input = document.getElementById('goal-date');
-    var goal = lsGet('goalDate', '2027-03-01');
+    var goal = lsGet('goalDate', DEFAULT_GOAL);
     if (input) {
       input.value = goal;
       input.addEventListener('change', function () {
         if (!input.value) return;
         lsSet('goalDate', input.value);
         render();
+        initFilingWindow();
       });
     }
 
@@ -64,6 +66,48 @@
     }
 
     render();
+  }
+
+  /* ---------- ANEF filing window + current phase ----------
+     Renewal is typically filed between 4 and 2 months before the
+     titre expires. Every [data-filing-window] element gets the date
+     range; #phase (dashboard) says where you are in the timeline. */
+  function initFilingWindow() {
+    var goal = new Date(lsGet('goalDate', DEFAULT_GOAL) + 'T00:00:00');
+    var open = new Date(goal); open.setMonth(open.getMonth() - 4);
+    var close = new Date(goal); close.setMonth(close.getMonth() - 2);
+    var closeEnd = new Date(close.getTime() + 86400000); // close day included
+    var fmt = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    var range = fmt.format(open) + ' → ' + fmt.format(close);
+
+    document.querySelectorAll('[data-filing-window]').forEach(function (el) {
+      el.textContent = range;
+    });
+
+    var box = document.getElementById('phase');
+    if (!box) return;
+    var now = new Date();
+    function daysTo(d) {
+      var n = Math.ceil((d - now) / 86400000);
+      return n + ' day' + (n > 1 ? 's' : '');
+    }
+    var cls = 'note', html;
+    if (now < open) {
+      html = '<b>🗓️ Getting ready.</b> Your ANEF filing window opens in <b>' + daysTo(open) + '</b> (' + range + '). ' +
+        'Use the time to get both attestations and gather the documents.';
+    } else if (now < closeEnd) {
+      cls = 'note good';
+      html = '<b>📬 Filing window open.</b> Submit on ANEF by <b>' + fmt.format(close) + '</b> (' + daysTo(closeEnd) + ' left). ' +
+        'Work through the <a href="roadmap.html#application">application checklist</a>.';
+    } else if (now < goal) {
+      cls = 'note warn';
+      html = '<b>⚠️ Past the usual filing date</b> (' + fmt.format(close) + '). File on ANEF as soon as possible and check with your préfecture.';
+    } else {
+      cls = 'note warn';
+      html = '<b>⚠️ Your titre’s expiry date has passed</b> (' + fmt.format(goal) + '). Contact your préfecture now.';
+    }
+    box.className = cls;
+    box.innerHTML = html + ' <span class="xs muted">Typical window: 4 → 2 months before expiry — confirm yours on ANEF.</span>';
   }
 
   /* ---------- generic persisted checklists ----------
@@ -163,6 +207,10 @@
           wk.dataset.autoOpened = '1';
         }
       });
+      // once the last week is behind us, point to the application checklist
+      var over = document.getElementById('plan-over');
+      var weeks = document.querySelectorAll('details.week').length;
+      if (over) over.hidden = now < new Date(d0.getTime() + weeks * 7 * 86400000);
     }
 
     applyDates();
@@ -241,6 +289,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     markNav();
     initCountdown();
+    initFilingWindow();
     initChecklists();
     initRoadmap();
     initDashboard();

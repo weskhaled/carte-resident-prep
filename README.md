@@ -23,7 +23,7 @@ python3 -m http.server 4630
 
 | File | What it is |
 |---|---|
-| `index.html` | Dashboard — countdown to the renewal, both requirements at a glance, your scores, official links |
+| `index.html` | Dashboard — countdown to your titre's expiry, current phase + ANEF filing window, both requirements at a glance, your scores, official links |
 | `roadmap.html` | The **8-week plan** (interactive checklists, auto-dated weeks, daily routine) + post-exam application checklist |
 | `civic-guide.html` | Civic exam rules, registration, **7 fiches de révision** (values, symbols, institutions, rights, history timeline, geography map, daily life), exam-day strategy |
 | `civic-simulator.html` | **Mock exam engine** — real format (40 Q = 28 knowledge + 12 situational, 45 min timer, 32/40 pass), training mode by theme, error replay, score history. Bank: 111 questions in French |
